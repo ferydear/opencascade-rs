@@ -83,8 +83,11 @@ mod inner {
             with_contact: bool,
             with_correction: bool,
         );
-        pub fn SetLaw(
-            self: Pin<&mut BRepOffsetAPI_MakePipeShell>,
+        // MSVC 下 OCCT 的 Handle_Law_Function 是 opencascade::handle<> 的子类，
+        // cxxbridge 对成员函数取指针会因参数类型不匹配而 C2440，改为自由函数 +
+        // 手写包装（include/b_rep_offset_api.hxx）。
+        pub fn BRepOffsetAPI_MakePipeShell_SetLaw(
+            make_pipe_shell: Pin<&mut BRepOffsetAPI_MakePipeShell>,
             profile: &TopoDS_Shape,
             law: &Handle_Law_Function,
             with_contact: bool,

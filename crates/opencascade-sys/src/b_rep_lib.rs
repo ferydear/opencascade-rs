@@ -13,8 +13,12 @@ mod inner {
         #[Self = "BRepLib"]
         pub fn BuildCurves3d(shape: &TopoDS_Shape) -> bool;
 
-        type BRepLib_ToolTriangulatedShape;
-        #[Self = "BRepLib_ToolTriangulatedShape"]
-        pub fn ComputeNormals(face: &TopoDS_Face, triangulation: &Handle_Poly_Triangulation);
+        // MSVC 下 OCCT 的 Handle_Poly_Triangulation 是 opencascade::handle<> 的子类，
+        // cxxbridge 对关联函数生成"取成员地址"的代码会因参数类型不匹配而 C2440，
+        // 改为自由函数 + 手写包装（include/b_rep_lib.hxx）。
+        pub fn BRepLib_ToolTriangulatedShape_ComputeNormals(
+            face: &TopoDS_Face,
+            triangulation: &Handle_Poly_Triangulation,
+        );
     }
 }
