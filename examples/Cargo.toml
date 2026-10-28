@@ -6,7 +6,9 @@ edition = "2021"
 [dependencies]
 clap = { version = "4", features = ["derive"] }
 opencascade = { version = "0.3", path = "../crates/opencascade", default-features = false }
+opencascade-sys = { path = "../crates/opencascade-sys" }
 glam = { version = "0.24", features = ["bytemuck"] }
+cxx = "1"
 
 [features]
 default = ["builtin"]
@@ -19,3 +21,7 @@ path = "src/lib.rs"
 [[bin]]
 name = "write_model"
 path = "src/write_model.rs"
+
+[[bin]]
+name = "m0_validation"
+path = "src/m0_validation.rs"

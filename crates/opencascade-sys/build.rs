@@ -65,6 +65,7 @@ fn main() {
         "src/b_rep_offset_api.rs",
         "src/b_rep_prim_api.rs",
         "src/b_rep_tools.rs",
+        "src/b_rep_tools_history.rs",
         "src/bin_tools.rs",
         "src/bnd.rs",
         "src/bop_algo.rs",

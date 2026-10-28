@@ -447,6 +447,12 @@ impl Shape {
         self.inner.ShapeType().into()
     }
 
+    /// Read-only access to the underlying sys-level `TopoDS_Shape`,
+    /// for sys APIs not yet wrapped (e.g. history queries, explorers).
+    pub fn inner_shape(&self) -> &ffi::topo_ds::TopoDS_Shape {
+        &self.inner
+    }
+
     #[must_use]
     pub fn fillet_edge(&self, radius: f64, edge: &Edge) -> Self {
         self.fillet_edges(radius, [edge])

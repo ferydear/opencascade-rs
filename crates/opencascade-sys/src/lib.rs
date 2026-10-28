@@ -12,6 +12,7 @@ pub mod b_rep_mesh;
 pub mod b_rep_offset_api;
 pub mod b_rep_prim_api;
 pub mod b_rep_tools;
+pub mod b_rep_tools_history;
 pub mod bin_tools;
 pub mod bnd;
 pub mod bop_algo;
