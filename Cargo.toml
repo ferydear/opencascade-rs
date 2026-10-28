@@ -1,11 +1,12 @@
 [workspace]
+# astrakernel M0 patch: 剔除 kicad-parser/model-api/viewer/wasm-example，
+# 避免 viewer 的 simple-game git 依赖拉取失败阻塞 OCCT 构建
 members = [
-    "crates/kicad-parser", "crates/model-api",
     "crates/opencascade",
     "crates/opencascade-sys",
-    "crates/viewer", "crates/wasm-example",
     "examples",
 ]
+exclude = ["crates/kicad-parser", "crates/model-api", "crates/viewer", "crates/wasm-example"]
 
 resolver = "2"
 
