@@ -1,4 +1,6 @@
+#include <BRepAlgoAPI_Common.hxx>
 #include <BRepAlgoAPI_Cut.hxx>
+#include <BRepAlgoAPI_Fuse.hxx>
 #include <BRepFilletAPI_MakeFillet.hxx>
 #include <BRepTools_History.hxx>
 #include <TopoDS_Shape.hxx>
@@ -63,4 +65,17 @@ inline bool History_HasModified(const Handle_BRepTools_History &history) {
 
 inline bool History_HasRemoved(const Handle_BRepTools_History &history) {
   return history->HasRemoved();
+}
+
+inline std::unique_ptr<Handle_BRepTools_History> BRepAlgoAPI_Fuse_History(BRepAlgoAPI_Fuse &fuse) {
+  return std::unique_ptr<Handle_BRepTools_History>(new Handle_BRepTools_History(fuse.History()));
+}
+
+inline std::unique_ptr<Handle_BRepTools_History> BRepAlgoAPI_Common_History(BRepAlgoAPI_Common &common) {
+  return std::unique_ptr<Handle_BRepTools_History>(new Handle_BRepTools_History(common.History()));
+}
+
+// Subshape identity for ID-evolution bookkeeping (same TShape + Location).
+inline bool ShapesAreSame(const TopoDS_Shape &a, const TopoDS_Shape &b) {
+  return a.IsSame(b);
 }

@@ -8,6 +8,8 @@ mod inner {
         type TopoDS_Shape = crate::topo_ds::TopoDS_Shape;
         type Handle_TopTools_HSequenceOfShape = crate::top_tools::Handle_TopTools_HSequenceOfShape;
         type BRepAlgoAPI_Cut = crate::b_rep_algo_api::BRepAlgoAPI_Cut;
+        type BRepAlgoAPI_Fuse = crate::b_rep_algo_api::BRepAlgoAPI_Fuse;
+        type BRepAlgoAPI_Common = crate::b_rep_algo_api::BRepAlgoAPI_Common;
         type BRepFilletAPI_MakeFillet = crate::b_rep_fillet_api::BRepFilletAPI_MakeFillet;
 
         // Handles
@@ -19,6 +21,14 @@ mod inner {
         // (BRepAlgoAPI_BuilderAlgo::History(), inherited by Cut/Fuse/Common).
         pub fn BRepAlgoAPI_Cut_History(
             cut: Pin<&mut BRepAlgoAPI_Cut>,
+        ) -> UniquePtr<Handle_BRepTools_History>;
+
+        // Fuse/Common 同源（BRepAlgoAPI_BuilderAlgo::History 继承链）
+        pub fn BRepAlgoAPI_Fuse_History(
+            fuse: Pin<&mut BRepAlgoAPI_Fuse>,
+        ) -> UniquePtr<Handle_BRepTools_History>;
+        pub fn BRepAlgoAPI_Common_History(
+            common: Pin<&mut BRepAlgoAPI_Common>,
         ) -> UniquePtr<Handle_BRepTools_History>;
 
         // Fillet: BRepFilletAPI_MakeFillet has no History() getter, so build one
@@ -43,5 +53,8 @@ mod inner {
         pub fn History_HasGenerated(history: &Handle_BRepTools_History) -> bool;
         pub fn History_HasModified(history: &Handle_BRepTools_History) -> bool;
         pub fn History_HasRemoved(history: &Handle_BRepTools_History) -> bool;
+
+        /// 子形状身份比较（同 TShape + Location）——ID 演化簿记用
+        pub fn ShapesAreSame(a: &TopoDS_Shape, b: &TopoDS_Shape) -> bool;
     }
 }
