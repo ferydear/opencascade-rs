@@ -34,6 +34,7 @@ pub mod shape_upgrade;
 pub mod standard;
 pub mod step_control;
 pub mod stl_api;
+pub mod surface_props;
 pub mod t_col_gp;
 pub mod top_abs;
 pub mod top_exp;
