@@ -24,7 +24,10 @@ fn seq_len(seq: &ffi::top_tools::Handle_TopTools_HSequenceOfShape) -> usize {
 }
 
 #[derive(Parser, Debug)]
-#[command(name = "m0_validation", about = "M0 checks 1.3-1.6: parametric model, hash, history, STEP round-trip")]
+#[command(
+    name = "m0_validation",
+    about = "M0 checks 1.3-1.6: parametric model, hash, history, STEP round-trip"
+)]
 struct Args {
     /// Number of rebuilds for the determinism check (1.4)
     #[arg(long, default_value_t = 5)]
@@ -290,7 +293,8 @@ fn check_history(p: &Params) -> bool {
     let range = ffi::message::Message_ProgressRange_new();
 
     // ---- boolean cut history ----
-    let mut cut = ffi::b_rep_algo_api::BRepAlgoAPI_Cut_new(base.inner_shape(), cutter.inner_shape());
+    let mut cut =
+        ffi::b_rep_algo_api::BRepAlgoAPI_Cut_new(base.inner_shape(), cutter.inner_shape());
     cut.pin_mut().Build(&range);
     if !cut.IsDone() {
         println!("  cut.IsDone() == false");
@@ -346,8 +350,10 @@ fn check_history(p: &Params) -> bool {
         return false;
     }
 
-    let fillet_history =
-        ffi::b_rep_tools_history::BRepFilletAPI_MakeFillet_History(make_fillet.pin_mut(), cut_inner);
+    let fillet_history = ffi::b_rep_tools_history::BRepFilletAPI_MakeFillet_History(
+        make_fillet.pin_mut(),
+        cut_inner,
+    );
 
     let mut edges_with_fillet_face = 0;
     let mut edges_removed = 0;
@@ -459,16 +465,16 @@ fn main() {
                     println!("      read : {}", metrics_back);
                 }
                 equal
-            }
+            },
             Err(e) => {
                 println!("[1.6] STEP read failed: {e}");
                 false
-            }
+            },
         },
         Err(e) => {
             println!("[1.6] STEP write failed: {e}");
             false
-        }
+        },
     };
     all_ok &= roundtrip_ok;
 

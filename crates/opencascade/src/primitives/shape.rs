@@ -326,6 +326,13 @@ impl Shape {
         Self { inner }
     }
 
+    /// Construct from a sys-level shape reference (owned copy).
+    /// Entry point for external crates composing sys-level algorithms
+    /// (e.g. kernel-geo) back into the wrapper API.
+    pub fn from_sys_shape(shape: &ffi::topo_ds::TopoDS_Shape) -> Self {
+        Self::from_shape(shape)
+    }
+
     /// Make a shape that models empty space.
     pub fn empty() -> Self {
         // NOTE: It may seem like using `TopoDS_Shape()` directly should work,
