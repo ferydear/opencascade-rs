@@ -7,6 +7,7 @@ mod inner {
 
         type TopoDS_Face = crate::topo_ds::TopoDS_Face;
         type TopoDS_Edge = crate::topo_ds::TopoDS_Edge;
+        type TopoDS_Shape = crate::topo_ds::TopoDS_Shape;
         type gp_Dir = crate::gp::gp_Dir;
 
         /// 面法向（平面=法向，圆柱/圆锥=轴向；其他类型 false）
@@ -17,5 +18,8 @@ mod inner {
 
         /// 边长度（mm）
         pub fn EdgeLength(edge: &TopoDS_Edge) -> f64;
+
+        /// 整体有效性（BRepCheck_Analyzer）
+        pub fn ShapeIsValid(shape: &TopoDS_Shape) -> bool;
     }
 }

@@ -1,4 +1,5 @@
 #include <BRepAdaptor_Surface.hxx>
+#include <BRepCheck_Analyzer.hxx>
 #include <BRepGProp.hxx>
 #include <BRepTools.hxx>
 #include <TopoDS_Edge.hxx>
@@ -46,4 +47,9 @@ inline double EdgeLength(const TopoDS_Edge &edge) {
   GProp_GProps props;
   BRepGProp::LinearProperties(edge, props);
   return props.Mass();
+}
+
+// Whole-shape validity via BRepCheck_Analyzer (kernel-geo check_validity Standard/Full).
+inline bool ShapeIsValid(const TopoDS_Shape &shape) {
+  return BRepCheck_Analyzer(shape).IsValid();
 }
