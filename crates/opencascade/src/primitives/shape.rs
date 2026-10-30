@@ -660,8 +660,10 @@ impl Shape {
     }
 
     pub fn write_brep_text(&self, path: impl AsRef<Path>) -> Result<(), Error> {
-        let success =
-            ffi::b_rep_tools::write_brep_text(&self.inner, path.as_ref().to_string_lossy().to_string());
+        let success = ffi::b_rep_tools::write_brep_text(
+            &self.inner,
+            path.as_ref().to_string_lossy().to_string(),
+        );
 
         if success {
             Ok(())
@@ -681,8 +683,10 @@ impl Shape {
     }
 
     pub fn write_brep_bin(&self, path: impl AsRef<Path>) -> Result<(), Error> {
-        let success =
-            ffi::bin_tools::write_brep_bin(&self.inner, path.as_ref().to_string_lossy().to_string());
+        let success = ffi::bin_tools::write_brep_bin(
+            &self.inner,
+            path.as_ref().to_string_lossy().to_string(),
+        );
 
         if success {
             Ok(())
