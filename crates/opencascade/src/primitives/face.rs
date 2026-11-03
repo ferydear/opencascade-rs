@@ -73,7 +73,7 @@ impl Face {
         let mut make_solid =
             ffi::b_rep_prim_api::BRepPrimAPI_MakePrism_new(inner_shape, &prism_vec, copy, canonize);
         let extruded_shape = make_solid.pin_mut().Shape();
-        let solid = ffi::topo_ds::TopoDS::Solid(extruded_shape);
+        let solid = ffi::topo_ds::cast_shape_to_solid(extruded_shape);
 
         Solid::from_solid(solid)
     }
@@ -134,7 +134,7 @@ impl Face {
         let mut make_solid =
             ffi::b_rep_prim_api::BRepPrimAPI_MakeRevol_new(inner_shape, &revol_vec, angle, copy);
         let revolved_shape = make_solid.pin_mut().Shape();
-        let solid = ffi::topo_ds::TopoDS::Solid(revolved_shape);
+        let solid = ffi::topo_ds::cast_shape_to_solid(revolved_shape);
 
         Solid::from_solid(solid)
     }
@@ -155,7 +155,7 @@ impl Face {
         );
 
         for i in 1..=shape_map.Extent() {
-            let vertex = ffi::topo_ds::TopoDS::Vertex(shape_map.FindKey(i));
+            let vertex = ffi::topo_ds::cast_shape_to_vertex(shape_map.FindKey(i));
             ffi::b_rep_fillet_api::BRepFilletAPI_MakeFillet2d_add_fillet(
                 make_fillet.pin_mut(),
                 vertex,
@@ -166,7 +166,7 @@ impl Face {
         make_fillet.pin_mut().Build(&ffi::message::Message_ProgressRange_new());
 
         let result_shape = make_fillet.pin_mut().Shape();
-        let result_face = ffi::topo_ds::TopoDS::Face(result_shape);
+        let result_face = ffi::topo_ds::cast_shape_to_face(result_shape);
 
         Self::from_face(result_face)
     }
@@ -204,15 +204,15 @@ impl Face {
             let edge_2 = edges.get(1).expect("Vertex has only one edge");
             ffi::b_rep_fillet_api::BRepFilletAPI_MakeFillet2d_add_chamfer(
                 make_fillet.pin_mut(),
-                ffi::topo_ds::TopoDS::Edge(edge_1),
-                ffi::topo_ds::TopoDS::Edge(edge_2),
+                ffi::topo_ds::cast_shape_to_edge(edge_1),
+                ffi::topo_ds::cast_shape_to_edge(edge_2),
                 distance_1,
                 distance_2,
             );
         }
 
         let filleted_shape = make_fillet.pin_mut().Shape();
-        let result_face = ffi::topo_ds::TopoDS::Face(filleted_shape);
+        let result_face = ffi::topo_ds::cast_shape_to_face(filleted_shape);
 
         Self::from_face(result_face)
     }
@@ -225,7 +225,7 @@ impl Face {
         make_offset.pin_mut().Perform(distance, 0.0);
 
         let offset_shape = make_offset.pin_mut().Shape();
-        let result_wire = ffi::topo_ds::TopoDS::Wire(offset_shape);
+        let result_wire = ffi::topo_ds::cast_shape_to_wire(offset_shape);
         let wire = Wire::from_wire(result_wire);
 
         wire.to_face()
@@ -239,7 +239,7 @@ impl Face {
             ffi::b_rep_offset_api::BRepOffsetAPI_MakePipe_new(&path.inner, profile_shape);
 
         let pipe_shape = make_pipe.pin_mut().Shape();
-        let result_solid = ffi::topo_ds::TopoDS::Solid(pipe_shape);
+        let result_solid = ffi::topo_ds::cast_shape_to_solid(pipe_shape);
 
         Solid::from_solid(result_solid)
     }
@@ -261,7 +261,7 @@ impl Face {
         make_pipe_shell.pin_mut().Build(&ffi::message::Message_ProgressRange_new());
         make_pipe_shell.pin_mut().MakeSolid();
         let pipe_shape = make_pipe_shell.pin_mut().Shape();
-        let result_solid = ffi::topo_ds::TopoDS::Solid(pipe_shape);
+        let result_solid = ffi::topo_ds::cast_shape_to_solid(pipe_shape);
 
         Solid::from_solid(result_solid)
     }
@@ -342,7 +342,7 @@ impl Face {
 
         let fuse_shape = fuse_operation.pin_mut().Shape();
 
-        let compound = ffi::topo_ds::TopoDS::Compound(fuse_shape);
+        let compound = ffi::topo_ds::cast_shape_to_compound(fuse_shape);
 
         CompoundFace::from_compound(compound)
     }
@@ -357,7 +357,7 @@ impl Face {
 
         let common_shape = common_operation.pin_mut().Shape();
 
-        let compound = ffi::topo_ds::TopoDS::Compound(common_shape);
+        let compound = ffi::topo_ds::cast_shape_to_compound(common_shape);
 
         CompoundFace::from_compound(compound)
     }
@@ -371,7 +371,7 @@ impl Face {
 
         let cut_shape = fuse_operation.pin_mut().Shape();
 
-        let compound = ffi::topo_ds::TopoDS::Compound(cut_shape);
+        let compound = ffi::topo_ds::cast_shape_to_compound(cut_shape);
 
         CompoundFace::from_compound(compound)
     }
@@ -425,7 +425,7 @@ impl From<Face> for CompoundFace {
         topo_builder.MakeCompound(compound.pin_mut());
         let mut compound_shape = ffi::topo_ds::TopoDS_Compound_as_shape(compound);
         topo_builder.Add(compound_shape.pin_mut(), face);
-        Self::from_compound(ffi::topo_ds::TopoDS::Compound(&compound_shape))
+        Self::from_compound(ffi::topo_ds::cast_shape_to_compound(&compound_shape))
     }
 }
 
@@ -441,7 +441,7 @@ impl CompoundFace {
         let shape = ffi::topo_ds::cast_compound_to_shape(&self.inner);
         let shape = Shape::from_shape(shape).clean();
 
-        let compound = ffi::topo_ds::TopoDS::Compound(&shape.inner);
+        let compound = ffi::topo_ds::cast_shape_to_compound(&shape.inner);
 
         Self::from_compound(compound)
     }
@@ -488,7 +488,7 @@ impl CompoundFace {
 
         let fuse_shape = fuse_operation.pin_mut().Shape();
 
-        let compound = ffi::topo_ds::TopoDS::Compound(fuse_shape);
+        let compound = ffi::topo_ds::cast_shape_to_compound(fuse_shape);
 
         CompoundFace::from_compound(compound)
     }
@@ -503,7 +503,7 @@ impl CompoundFace {
 
         let common_shape = common_operation.pin_mut().Shape();
 
-        let compound = ffi::topo_ds::TopoDS::Compound(common_shape);
+        let compound = ffi::topo_ds::cast_shape_to_compound(common_shape);
 
         CompoundFace::from_compound(compound)
     }
@@ -518,7 +518,7 @@ impl CompoundFace {
 
         let cut_shape = fuse_operation.pin_mut().Shape();
 
-        let compound = ffi::topo_ds::TopoDS::Compound(cut_shape);
+        let compound = ffi::topo_ds::cast_shape_to_compound(cut_shape);
 
         CompoundFace::from_compound(compound)
     }
@@ -529,7 +529,7 @@ impl CompoundFace {
 
         shape.set_global_translation(translation);
 
-        let compound = ffi::topo_ds::TopoDS::Compound(&shape.inner);
+        let compound = ffi::topo_ds::cast_shape_to_compound(&shape.inner);
         *self = Self::from_compound(compound);
     }
 }

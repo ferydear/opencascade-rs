@@ -37,7 +37,7 @@ impl Compound {
             builder.Add(compound_shape.pin_mut(), &shape.as_ref().inner);
         }
 
-        let compound = ffi::topo_ds::TopoDS::Compound(&compound_shape);
+        let compound = ffi::topo_ds::cast_shape_to_compound(&compound_shape);
         Self::from_compound(compound)
     }
 }

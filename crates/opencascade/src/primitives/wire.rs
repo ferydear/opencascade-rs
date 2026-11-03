@@ -111,7 +111,7 @@ impl Wire {
 
         for index in 1..=wire_len {
             let wire_shape = ffi::top_tools::TopTools_HSequenceOfShape_value(&wires, index);
-            let wire = ffi::topo_ds::TopoDS::Wire(wire_shape);
+            let wire = ffi::topo_ds::cast_shape_to_wire(wire_shape);
 
             make_wire.pin_mut().add_wire(wire);
         }
@@ -144,7 +144,7 @@ impl Wire {
             ffi::b_rep_builder_api::BRepBuilderAPI_Transform_new(wire_shape, &transform, false);
 
         let mirrored_shape = brep_transform.pin_mut().Shape();
-        let mirrored_wire = ffi::topo_ds::TopoDS::Wire(mirrored_shape);
+        let mirrored_wire = ffi::topo_ds::cast_shape_to_wire(mirrored_shape);
 
         Self::from_wire(mirrored_wire)
     }
@@ -192,7 +192,7 @@ impl Wire {
         make_offset.pin_mut().Perform(distance, 0.0);
 
         let offset_shape = make_offset.pin_mut().Shape();
-        let result_wire = ffi::topo_ds::TopoDS::Wire(offset_shape);
+        let result_wire = ffi::topo_ds::cast_shape_to_wire(offset_shape);
 
         Self::from_wire(result_wire)
     }
@@ -205,7 +205,7 @@ impl Wire {
             ffi::b_rep_offset_api::BRepOffsetAPI_MakePipe_new(&path.inner, profile_shape);
 
         let pipe_shape = make_pipe.pin_mut().Shape();
-        let result_shell = ffi::topo_ds::TopoDS::Shell(pipe_shape);
+        let result_shell = ffi::topo_ds::cast_shape_to_shell(pipe_shape);
 
         Shell::from_shell(result_shell)
     }
@@ -223,7 +223,7 @@ impl Wire {
         let mut make_pipe_shell =
             make_pipe_shell_with_law_function(&self.inner, &path.inner, &law_handle);
         let pipe_shape = make_pipe_shell.pin_mut().Shape();
-        let result_shell = ffi::topo_ds::TopoDS::Shell(pipe_shape);
+        let result_shell = ffi::topo_ds::cast_shape_to_shell(pipe_shape);
 
         Shell::from_shell(result_shell)
     }
@@ -250,7 +250,7 @@ impl Wire {
         let raise_exception = false;
         wire_shape.pin_mut().translate(&location, raise_exception);
 
-        let translated_wire = ffi::topo_ds::TopoDS::Wire(&wire_shape);
+        let translated_wire = ffi::topo_ds::cast_shape_to_wire(&wire_shape);
 
         Self::from_wire(translated_wire)
     }

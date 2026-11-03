@@ -278,7 +278,7 @@ impl Shape {
     #[must_use]
     pub fn as_wire(&self) -> Option<Wire> {
         if self.shape_type() == ShapeType::Wire {
-            let inner = ffi::topo_ds::TopoDS::Wire(&self.inner);
+            let inner = ffi::topo_ds::cast_shape_to_wire(&self.inner);
             Some(Wire::from_wire(inner))
         } else {
             None
@@ -293,7 +293,7 @@ impl Shape {
     #[must_use]
     pub fn as_face(&self) -> Option<Face> {
         if self.shape_type() == ShapeType::Face {
-            let inner = ffi::topo_ds::TopoDS::Face(&self.inner);
+            let inner = ffi::topo_ds::cast_shape_to_face(&self.inner);
             Some(Face::from_face(inner))
         } else {
             None
@@ -308,7 +308,7 @@ impl Shape {
     #[must_use]
     pub fn as_solid(&self) -> Option<Solid> {
         if self.shape_type() == ShapeType::Solid {
-            let inner = ffi::topo_ds::TopoDS::Solid(&self.inner);
+            let inner = ffi::topo_ds::cast_shape_to_solid(&self.inner);
             Some(Solid::from_solid(inner))
         } else {
             None
@@ -552,7 +552,7 @@ impl Shape {
 
         let mut new_edges = vec![];
         for shape in vec.iter() {
-            let edge = ffi::topo_ds::TopoDS::Edge(shape);
+            let edge = ffi::topo_ds::cast_shape_to_edge(shape);
             new_edges.push(Edge::from_edge(edge));
         }
 
@@ -714,7 +714,7 @@ impl Shape {
 
         let mut new_edges = vec![];
         for shape in vec.iter() {
-            let edge = ffi::topo_ds::TopoDS::Edge(shape);
+            let edge = ffi::topo_ds::cast_shape_to_edge(shape);
             new_edges.push(Edge::from_edge(edge));
         }
 
@@ -732,7 +732,7 @@ impl Shape {
 
         let mut new_edges = vec![];
         for shape in vec.iter() {
-            let edge = ffi::topo_ds::TopoDS::Edge(shape);
+            let edge = ffi::topo_ds::cast_shape_to_edge(shape);
             new_edges.push(Edge::from_edge(edge));
         }
 

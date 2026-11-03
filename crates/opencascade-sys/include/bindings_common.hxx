@@ -1,5 +1,6 @@
 #pragma once
 #include "rust/cxx.h"
+#include "occt8_compat.hxx" // M19：OCCT 8.0.1 Handle_* 别名恢复（桥接旧类型名兼容）
 #include <NCollection_List.hxx>
 #include <memory>
 

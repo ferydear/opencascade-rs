@@ -10,21 +10,15 @@ mod inner {
         type TopAbs_Orientation = crate::top_abs::TopAbs_Orientation;
         type TopTools_ListOfShape = crate::top_tools::TopTools_ListOfShape;
 
-        type TopoDS;
-        #[Self = "TopoDS"]
-        pub fn Vertex(shape: &TopoDS_Shape) -> &TopoDS_Vertex;
-        #[Self = "TopoDS"]
-        pub fn Edge(shape: &TopoDS_Shape) -> &TopoDS_Edge;
-        #[Self = "TopoDS"]
-        pub fn Wire(shape: &TopoDS_Shape) -> &TopoDS_Wire;
-        #[Self = "TopoDS"]
-        pub fn Face(shape: &TopoDS_Shape) -> &TopoDS_Face;
-        #[Self = "TopoDS"]
-        pub fn Shell(shape: &TopoDS_Shape) -> &TopoDS_Shell;
-        #[Self = "TopoDS"]
-        pub fn Solid(shape: &TopoDS_Shape) -> &TopoDS_Solid;
-        #[Self = "TopoDS"]
-        pub fn Compound(shape: &TopoDS_Shape) -> &TopoDS_Compound;
+        // M19（8.0.1）：TopoDS 类→命名空间，cxx 的 #[Self] 机制不可用——
+        // 改平名 shim（见 topo_ds.hxx cast_shape_to_*），Rust 调用点同步更名。
+        pub fn cast_shape_to_vertex(shape: &TopoDS_Shape) -> &TopoDS_Vertex;
+        pub fn cast_shape_to_edge(shape: &TopoDS_Shape) -> &TopoDS_Edge;
+        pub fn cast_shape_to_wire(shape: &TopoDS_Shape) -> &TopoDS_Wire;
+        pub fn cast_shape_to_face(shape: &TopoDS_Shape) -> &TopoDS_Face;
+        pub fn cast_shape_to_shell(shape: &TopoDS_Shape) -> &TopoDS_Shell;
+        pub fn cast_shape_to_solid(shape: &TopoDS_Shape) -> &TopoDS_Solid;
+        pub fn cast_shape_to_compound(shape: &TopoDS_Shape) -> &TopoDS_Compound;
 
         type TopoDS_Vertex;
         #[cxx_name = "upcast_ref"]

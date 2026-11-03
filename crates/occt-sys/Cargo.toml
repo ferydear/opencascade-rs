@@ -1,9 +1,9 @@
 [package]
 name = "occt-sys"
-description = "Static build of the C++ OpenCascade CAD Kernel for use as a Rust dependency"
+description = "Static build of the C++ OpenCascade CAD Kernel for use as a Rust dependency (astrakernel M19: self-maintained, OCCT 8.0.1 via OCCT submodule @ V8_0_1)"
 authors = ["Brian Schwind <brianmschwind@gmail.com>", "Matěj Laitl <matej@laitl.cz>"]
 license = "LGPL-2.1"
-version = "7.8.1"
+version = "8.0.1"
 edition = "2021"
 repository = "https://github.com/bschwind/opencascade-rs"
 
@@ -24,8 +24,6 @@ exclude = [
 [dependencies]
 cmake = "0.1"
 
-# Adding an empty workspace table so occt-sys doesn't believe
-# it's in the parent workspace. This crate is excluded from
-# the top-level workspace because it takes quite awhile to
-# build and the crate doesn't change very often.
-[workspace]
+# M19：移除空 [workspace] 表——crates.io 发布时代的独立根技巧，
+# 在 path-dep 场景下与 fork 工作区形成"multiple workspace roots"冲突。
+# 本 crate 经 opencascade-sys 的 build-dependency 进入构建图。
