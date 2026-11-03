@@ -7,11 +7,16 @@ version = "0.3.0"
 edition = "2021"
 repository = "https://github.com/bschwind/opencascade-rs"
 
+# astrakernel M18 基座统一（fork 自持，2026-11-03）：
+# - glam 0.24 → 0.30（与主仓 kernel-math/workspace 同版，DVec3 跨 crate 归一为单实例）
+# - Angle/RVec/ToAngle 上移 kernel-math（angle.rs 仅重导出）；fork path-dep kernel-math
+# - 摘除 kicad 模块与 opencascade-kicad-parser 依赖（astrakernel 从不消费，减构建面）
+
 [dependencies]
 cxx = "1"
 opencascade-sys = { version = "0.3", path = "../opencascade-sys" }
-glam = { version = "0.24", features = ["bytemuck"] }
-opencascade-kicad-parser = { version = "0.3", path = "../kicad-parser" }
+glam = { version = "0.30", features = ["serde", "bytemuck"] }
+kernel-math = { path = "../../../../crates/kernel-math" }
 thiserror = "1"
 
 [features]

@@ -7,7 +7,7 @@ edition = "2021"
 clap = { version = "4", features = ["derive"] }
 opencascade = { version = "0.3", path = "../crates/opencascade", default-features = false }
 opencascade-sys = { path = "../crates/opencascade-sys" }
-glam = { version = "0.24", features = ["bytemuck"] }
+glam = { version = "0.30", features = ["bytemuck"] }
 cxx = "1"
 
 [features]

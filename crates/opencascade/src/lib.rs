@@ -2,7 +2,6 @@ use thiserror::Error;
 
 pub mod angle;
 pub mod bounding_box;
-pub mod kicad;
 pub mod mesh;
 pub mod primitives;
 pub mod section;
@@ -19,8 +18,6 @@ pub enum Error {
     StepReadFailed,
     #[error("failed to read IGES file")]
     IgesReadFailed,
-    #[error("failed to read KiCAD PCB file: {0}")]
-    KicadReadFailed(#[from] opencascade_kicad_parser::Error),
     #[error("at least one shape is required to write a STEP file")]
     StepWriteNoShapes,
     #[error("failed to transfer shape to STEP writer")]
