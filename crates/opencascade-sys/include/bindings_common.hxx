@@ -24,3 +24,8 @@ template <typename T> const T &handle_try_deref(const opencascade::handle<T> &ha
   }
   return *handle;
 }
+
+// M42：默认构造（批量布尔多参数——BRepAlgoAPI_Fuse 空构造 + AddArgument/AddTool）
+template <typename T> std::unique_ptr<T> construct_unique_default() {
+    return std::unique_ptr<T>(new T());
+}

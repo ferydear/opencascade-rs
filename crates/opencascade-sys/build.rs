@@ -69,6 +69,7 @@ fn main() {
         "src/bin_tools.rs",
         "src/bnd.rs",
         "src/bop_algo.rs",
+        "src/bop_bop.rs", // M42：BOPAlgo_BOP 批量布尔
         "src/geom.rs",
         "src/geom2d.rs",
         "src/geom_abs.rs",

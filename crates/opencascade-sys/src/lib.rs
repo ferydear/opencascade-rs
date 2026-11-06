@@ -16,6 +16,7 @@ pub mod b_rep_tools_history;
 pub mod bin_tools;
 pub mod bnd;
 pub mod bop_algo;
+pub mod bop_bop; // M42：BOPAlgo_BOP 批量布尔
 pub mod g_prop;
 pub mod gc;
 pub mod gc_pnts;
